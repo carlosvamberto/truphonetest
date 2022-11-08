@@ -122,5 +122,24 @@ namespace TruphoneTest.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteDevice(int id)
+        {
+            try
+            {
+                DeviceService service = new();
+                var device = service.Get(id);
+                if (device == null)
+                    return NotFound(device);
+                service.Delete(device.Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error found!", DateTime.UtcNow.ToLongTimeString());
+                return BadRequest();
+            }
+        }
     }
 }
